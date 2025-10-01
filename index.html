@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula viewer</title>
+
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']], 
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true
+            },
+            'HTML-CSS': { preferredFont: "Asana Math", availableFonts: ["TeX"], linebreaks: { automatic: true } }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        /* বাংলা লেখার জন্য ফন্ট এবং লাইন হাইট */
+        #inputArea, #outputArea {
+            font-family: 'Kalpurush', 'SutonnyMJ', Arial, sans-serif; 
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+        #inputArea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #outputArea {
+            padding: 20px;
+            border: 1px solid #ddd;
+            min-height: 100px;
+            background-color: #fafafa;
+            border-radius: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        strong {
+            display: block; 
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Formula Viewing With TOWFIQ</h1>
+
+        <textarea id="inputArea" placeholder="আপনার বাংলা লেখা (গাণিতিক সমীকরণ LaTeX-এ $...$ বা $$...$$ এর মধ্যে রেখে) এখানে পেস্ট করুন এবং 'প্রদর্শন' বাটনে ক্লিক করুন..."></textarea>
+        
+        <button onclick="renderContent()">প্রদর্শন করুন</button>
+
+        <strong>ফলাফল:</strong>
+        <div id="outputArea">
+            <p>আপনার পেস্ট করা লেখাটি এখানে সুন্দরভাবে দেখা যাবে...</p>
+        </div>
+    </div>
+
+    <script>
+        function renderContent() {
+            // 1. ইনপুট এরিয়া থেকে লেখাটি নেওয়া
+            var rawText = document.getElementById('inputArea').value;
+            var outputDiv = document.getElementById('outputArea');
+            
+            // 2. নতুন লাইনের জন্য <br> ট্যাগ ব্যবহার করা (সরল উপস্থাপনার জন্য)
+            var formattedHTML = rawText.replace(/\n/g, '<br>');
+            
+            // 3. আউটপুট এরিয়াতে HTML ইনসার্ট করা
+            outputDiv.innerHTML = formattedHTML;
+            
+            // 4. MathJax-কে কল করা
+            // MathJax কে বলা হচ্ছে নতুন করে রেন্ডার করতে। এটি নতুন করে লোড হওয়া কনটেন্ট-এ LaTeX সমীকরণ খুঁজবে।
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "outputArea"]);
+        }
+    </script>
+
+</body>
+</html>
